@@ -40,3 +40,19 @@ This type of processing is the ideal because each event is processed exactly onc
 | **Row/Object Size**           | 400 KB                   | 1 MB                              | Destination row / object size | Varies     | Varies                 | 256 KB               | 256 KB           |
 | **Stream MapReduce**          | Yes                      | Yes                               | N/A                           | Yes        | Yes                    | N/A                  | N/A              |
 | **Cost**                      | Higher                   | Low                               | Low                           | Low        | Low (+Admin)           | Low-Medium           | Low-Medium       |
+
+
+
+Amazon MSK: up to 30 brokers, but, you can request a limit increase in the AWS Support Center.
+
+    How quickly do you need the analytics results? In real time, in seconds, or is an hour a more appropriate time frame?
+    Where is the data coming from?
+
+##### Comparing ingestion service
+
+<table>
+<thead><tr><th></th><th>Kinesis Data Streams</th><th>Kinesis Data Firehose</th><th>AWS DMS</th><th>AWS Glue</th></tr></thead><tbody>
+ <tr><td>Scale and throughput</td><td>Each shard can support up to 1,000 PUT records per second. However, you can increase the number of shards limitlessly. One shard provides a capacity of 1 MB/sec data input and 2 MB/sec data output.</td><td>Kinesis Data Firehose will automatically scale to match the throughput of your data, without any manual intervention or developer overhead.</td><td>AWS DMS uses Amazon EC2 instances as the replication instance. You can scale up or down your replication instance.</td><td>AWS Glue uses a scale-out Apache Spark environment to load your data into its destination. To scale out, you specify the number of DPUs (data processing units) that you want to allocate to your ETL jobs.</td></tr>
+ <tr><td>Fault tolerance</td><td>3 AZ</td><td>3 AZ</td><td>You have the option of enabling Multi-AZ which provides a replication stream that is fault-tolerant through redundant replication servers.</td><td>AWS Glue connects to the data source of your preference, whether it is in an S3 file, RDS table, or so on. AWS Glue also provides default retry behavior that will retry all failures three times before sending out an error notification. You can set up Amazon SNS notifications via Amazon CloudWatch actions.</td></tr>
+ <tr><td>Cost</td><td>You pay per shard hour and per PUT payload unit. Optionally, there are fees associated with extended data retention and enhanced fan-out, if you choose to use those features.</td><td>You pay for the volume of data you ingest using the service and for any data format conversions.</td><td>You pay for compute resources (depending on instance type) used during the migration process and any additional log storage. There are also potential data transfer fees.</td><td>With AWS Glue, you pay an hourly rate, billed by the second, for crawlers (discovering data) and ETL jobs (processing and loading data).</td></tr>
+</tbody></table>
