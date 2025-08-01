@@ -399,7 +399,7 @@ Ensuring audit logs and compliance records remain tamper-proof.
 Backup and Archival:
 Ensuring backups or archives cannot be modified or deleted before their retention period expires.
 
-### Integration with Other AWS Services
+### Integration with Other AWS Services
 Lifecycle Policies:
 S3 Lifecycle policies can work alongside Object Lock to transition objects to cheaper storage classes after the retention period but cannot delete locked objects before retention expiration.
 
